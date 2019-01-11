@@ -9,7 +9,7 @@ const statAsync = promisify(fs.stat);
 async function getAllFilePathsWithExtension(directoryPath, extension, filePaths) {
     filePaths = filePaths || [];
     const fileNames = await readdirAsync(directoryPath);
-    
+
     promises = [];
     for (const fileName of fileNames) {
         const filePath = path.join(directoryPath, fileName);
@@ -30,9 +30,12 @@ function readFile(filePath) {
     return fs.readFileSync(filePath, 'utf8'); // TODO Veronika; 2018-08-16; сделать кодировку настраиваемой
 }
 
-// TODO Digi; 2018-09-21; Добавить функцию getFileName, которая по пути файла будет возвращать его имя. Воспользоваться модулем path из Node.js
+function getFileName(filePath) {
+    return path.basename(filePath);
+}
 
 module.exports = {
     getAllFilePathsWithExtension,
     readFile,
+    getFileName
 };
