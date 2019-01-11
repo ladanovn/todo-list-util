@@ -1,3 +1,5 @@
+const { getFileName } = require('./fileSystem');
+const { readFile } = require('./fileSystem');
 module.exports = class TodoHandler {
 
     constructor() {
@@ -6,8 +8,17 @@ module.exports = class TodoHandler {
         this.filteredTODOs = [];
     }
 
-    loadFiles(filePaths) {
-        
+    async loadFiles(filePaths) {
+        this.uploadedFiles = await Promise.all(
+            [ ...filePaths ].map(filePath => {
+            return readFile(filePath)
+                .then(data => {
+                    return {
+                        filename: getFileName(filePath),
+                        data
+                    }
+                }) 
+        }));
     }
 
 }

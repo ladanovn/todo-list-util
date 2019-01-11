@@ -3,6 +3,7 @@ const path = require('path');
 const { promisify } = require('util');
 
 const readdirAsync = promisify(fs.readdir);
+const readFileAsync = promisify(fs.readFile);
 const statAsync = promisify(fs.stat);
 
 // TODO PE; 2018-08-20; переименовать?
@@ -27,7 +28,7 @@ async function getAllFilePathsWithExtension(directoryPath, extension, filePaths)
 }
 
 function readFile(filePath) {
-    return fs.readFileSync(filePath, 'utf8'); // TODO Veronika; 2018-08-16; сделать кодировку настраиваемой
+    return readFileAsync(filePath, 'utf8'); // TODO Veronika; 2018-08-16; сделать кодировку настраиваемой
 }
 
 function getFileName(filePath) {

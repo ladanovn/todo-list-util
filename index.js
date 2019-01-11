@@ -1,14 +1,13 @@
 const TodoHandler = require('./TodoHandler');
-const { getAllFilePathsWithExtension, readFile } = require('./fileSystem');
 const { readLine } = require('./console');
+const { getAllFilePathsWithExtension, readFile } = require('./fileSystem');
 
 app();
 
 async function app () {
     const files = await getFiles();
     const todoHandler = new TodoHandler();
-    // console.log(files)
-    // todoHandler.loadFiles(files);
+    await todoHandler.loadFiles(files);
     
     console.log('Please, write your command!');
     // readLine(processCommand);
@@ -16,7 +15,6 @@ async function app () {
 
 async function getFiles () {
     const filePaths = await getAllFilePathsWithExtension(process.cwd(), 'js');
-    // return filePaths.map(path => readFile(path));
     return filePaths;
 }
 
