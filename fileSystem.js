@@ -1,19 +1,28 @@
 const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
+
+const readdirAsync = promisify(fs.readdir);
+const statAsync = promisify(fs.stat);
 
 // TODO PE; 2018-08-20; переименовать?
-function getAllFilePathsWithExtension(directoryPath, extension, filePaths) {
+async function getAllFilePathsWithExtension(directoryPath, extension, filePaths) {
     filePaths = filePaths || [];
-    // TODO Anonymous Developer; 2016-03-17; Необходимо переписать этот код и использовать асинхронные версии функций для чтения из файла
-    const fileNames = fs.readdirSync(directoryPath);
+    const fileNames = await readdirAsync(directoryPath);
+    
+    promises = [];
     for (const fileName of fileNames) {
-        // TODO WinDev; ; Убедиться, что будет работать под Windows.
-        const filePath = directoryPath + '/' + fileName;
-        if (fs.statSync(filePath).isDirectory()) {
-            getAllFilePathsWithExtension(filePath, filePaths);
-        } else if (filePath.endsWith(`.${extension}`)) {
-            filePaths.push(filePath);
-        }
+        const filePath = path.join(directoryPath, fileName);
+        promises.push(statAsync(filePath)
+            .then(async stats => {
+                if (stats.isDirectory()) {
+                    await getAllFilePathsWithExtension(filePath, extension, filePaths);
+                } else if (filePath.endsWith(`.${extension}`)) {
+                    filePaths.push(filePath);
+                }
+            }));
     }
+    await Promise.all(promises);
     return filePaths;
 }
 
