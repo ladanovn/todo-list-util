@@ -1,16 +1,15 @@
 const TodoHandler = require('./TodoHandler');
 const { readLine } = require('./console');
-const { getAllFilePathsWithExtension, readFile } = require('./fileSystem');
+const { getAllFilePathsWithExtension } = require('./fileSystem');
+const todoHandler = new TodoHandler();
 
 app();
 
 async function app () {
     const files = await getFiles();
-    const todoHandler = new TodoHandler();
     await todoHandler.loadFiles(files);
-    
     console.log('Please, write your command!');
-    // readLine(processCommand);
+    readLine(processCommand);
 }
 
 async function getFiles () {
@@ -21,9 +20,9 @@ async function getFiles () {
 function processCommand (command) {
     switch (command.trim()) {
         case 'show':
-            // todoHandler
-            //  .getAll()
-            //  .print();
+            todoHandler
+             .getAll()
+             .print();
             break;
         case 'important':
             // todoHandler
