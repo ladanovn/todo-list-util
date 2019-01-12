@@ -35,13 +35,13 @@ module.exports = class TodoHandler {
         const dateLen = this._calcColumnWidth('date', 10);
         const commentLen = this._calcColumnWidth('comment', 50);
         const filenameLen = this._calcColumnWidth('filename', 15);
-        const tableLen = authorLen + dateLen + commentLen + filenameLen + 20;
+        const tableLen = authorLen + dateLen + commentLen + filenameLen + 25;
         const tableHead = `  !  |` + 
                           `  ${'user'.padEnd(authorLen)}  |` +
                           `  ${'date'.padEnd(dateLen)}  |` +
                           `  ${'comment'.padEnd(commentLen)}  |` +
-                          `  ${'fileName'.padEnd(filenameLen)}\n` +
-                          `  ${''.padEnd(tableLen, '-')}\n`;
+                          `  ${'fileName'.padEnd(filenameLen)}  \n` +
+                          `${''.padEnd(tableLen, '-')}\n`;
         printingTable += tableHead;
 
         for (let todo of this.filteredTODOs) {
@@ -53,6 +53,7 @@ module.exports = class TodoHandler {
                 `${this._padTableCell(`${todo.filename}`.padEnd(filenameLen))}\n`;
             printingTable += tableRow;
         }
+        printingTable += `${''.padEnd(tableLen, '-')}`;
         console.log(printingTable);
     }
 
