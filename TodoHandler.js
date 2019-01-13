@@ -36,15 +36,23 @@ module.exports = class TodoHandler {
         return this;
     }
 
+    selectUser(name) {
+        const regex = new RegExp(`^${name}`, "i");
+        this.filteredTODOs = this.filteredTODOs.filter(todo => {
+            return regex.test(todo.user);
+        });
+        return this;
+    }
+
     print() {
         let printingTable = '';
-        const authorLen = this._calcColumnWidth('author', 10);
+        const userLen = this._calcColumnWidth('user', 10);
         const dateLen = this._calcColumnWidth('date', 10);
         const commentLen = this._calcColumnWidth('comment', 50);
         const filenameLen = this._calcColumnWidth('filename', 15);
-        const tableLen = authorLen + dateLen + commentLen + filenameLen + 25;
+        const tableLen = userLen + dateLen + commentLen + filenameLen + 25;
         const tableHead = `  !  |` + 
-                          `  ${'user'.padEnd(authorLen)}  |` +
+                          `  ${'user'.padEnd(userLen)}  |` +
                           `  ${'date'.padEnd(dateLen)}  |` +
                           `  ${'comment'.padEnd(commentLen)}  |` +
                           `  ${'fileName'.padEnd(filenameLen)}  \n` +
@@ -54,13 +62,15 @@ module.exports = class TodoHandler {
         for (let todo of this.filteredTODOs) {
             const tableRow = `` +
                 `${this._padTableCell(`${todo.important ? '!': ''}`, 1)}|` + 
-                `${this._padTableCell(`${todo.author || ''}`.padEnd(authorLen))}|` +
+                `${this._padTableCell(`${todo.user || ''}`.padEnd(userLen))}|` +
                 `${this._padTableCell(`${todo.date || ''}`.padEnd(dateLen))}|` +
                 `${this._padTableCell(`${todo.comment || ''}`.padEnd(commentLen))}|` +
                 `${this._padTableCell(`${todo.filename}`.padEnd(filenameLen))}\n`;
             printingTable += tableRow;
         }
-        printingTable += `${''.padEnd(tableLen, '-')}`;
+        if (this.filteredTODOs.length > 0) {
+            printingTable += `${''.padEnd(tableLen, '-')}`;
+        }
         console.log(printingTable);
     }
 
@@ -74,7 +84,7 @@ module.exports = class TodoHandler {
 
             if (specMarkupTodo) {
                 this.uploadedTODOs.push({
-                    author: specMarkupTodo[1],
+                    user: specMarkupTodo[1],
                     date: specMarkupTodo[2],
                     comment: specMarkupTodo[3],
                     important: (specMarkupTodo[3].match(/!/g) || []).length,
@@ -91,7 +101,7 @@ module.exports = class TodoHandler {
     }
 
     _calcColumnWidth(todoProp, maxWidth) {
-        let columnWidth = 0;
+        let columnWidth = todoProp.length;
         for (let todo of this.filteredTODOs) {
             const propVal = todo[todoProp];
             if (propVal) {

@@ -18,42 +18,33 @@ async function getFiles () {
 }
 
 function processCommand (command) {
-    switch (command.trim()) {
-        case 'show':
-            todoHandler
-             .getAll()
-             .print();
-            break;
-        case 'important':
-            todoHandler
-             .getAll()
-             .selectImportant()
-             .print()
-            break;
-        case 'user':
-            // todoHandler
-            //  .getAll()
-            //  .selectUser()
-            //  .print()
-            break;
-        case 'sort':
-            // todoHandler
-            //  .getAll()
-            //  .sort('importance')
-            //  .print()
-            break;
-        case 'date':
-            // todoHandler
-            //  .getAll()
-            //  .selectDate('2016-03')
-            //  .print()
-            break;
-        case 'exit':
-            process.exit(0);
-            break;
-        default:
-            console.log('wrong command');
-            break;
+    const trimedCommand = command.trim();
+    if (trimedCommand === 'show') {
+        todoHandler
+            .getAll()
+            .print();
+
+    } else if (trimedCommand === 'important') {
+        todoHandler
+            .getAll()
+            .selectImportant()
+            .print();
+
+    } else if (/^user\s[a-zа-я]+$/i.test(trimedCommand)) {
+        const userName = trimedCommand.match(/^user\s([a-zа-я]+)$/i)[1];
+        todoHandler
+            .getAll()
+            .selectUser(userName)
+            .print();
+
+    } else if (trimedCommand === 'sort') {
+
+    } else if (trimedCommand === 'date') {
+
+    } else if (trimedCommand === 'exit') {
+
+    } else {
+        console.log('wrong command');  
     }
 }
 
