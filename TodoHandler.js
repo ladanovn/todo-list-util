@@ -29,6 +29,13 @@ module.exports = class TodoHandler {
         return this;
     }
 
+    selectImportant() {
+        this.filteredTODOs = this.filteredTODOs.filter(todo => {
+            return todo.important
+        });
+        return this;
+    }
+
     print() {
         let printingTable = '';
         const authorLen = this._calcColumnWidth('author', 10);

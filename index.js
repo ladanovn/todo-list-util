@@ -25,10 +25,10 @@ function processCommand (command) {
              .print();
             break;
         case 'important':
-            // todoHandler
-            //  .getAll()
-            //  .selectImportant()
-            //  .print()
+            todoHandler
+             .getAll()
+             .selectImportant()
+             .print()
             break;
         case 'user':
             // todoHandler
