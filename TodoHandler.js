@@ -74,6 +74,33 @@ module.exports = class TodoHandler {
         console.log(printingTable);
     }
 
+    sortByImportance() {
+        this.filteredTODOs = this.filteredTODOs.sort((a, b) => {
+            return a.important >= b.important ? -1 : 1
+        });
+        return this;
+    }
+
+    sortByUser() {
+        this.filteredTODOs = this.filteredTODOs.sort((a, b) => {
+            if (!b.user) return -1;
+            if (!a.user) return 1;
+            const aLower = a.user.toLowerCase();
+            const bLower = b.user.toLowerCase();
+            return aLower.localeCompare(bLower);
+        });
+        return this;
+    }
+
+    sortByDate() {
+        this.filteredTODOs = this.filteredTODOs.sort((a, b) => {
+            if (!b.date) return -1;
+            if (!a.date) return 1;
+            return new Date(a.date) > new Date(b.date) ? -1 : 1
+        });
+        return this;
+    }
+
     _getTodos(filename, data) {
         let result;
         const commentReg = /\/\/\s*TODO[\s:]+(.+)/gmi;

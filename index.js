@@ -37,12 +37,28 @@ function processCommand (command) {
             .selectUser(userName)
             .print();
 
-    } else if (trimedCommand === 'sort') {
+    } else if (trimedCommand === 'sort importance') {
+        todoHandler
+            .getAll()
+            .sortByImportance()
+            .print();
+
+    } else if (trimedCommand === 'sort user') {
+        todoHandler
+            .getAll()
+            .sortByUser()
+            .print();
+
+    } else if (trimedCommand === 'sort date') {
+        todoHandler
+            .getAll()
+            .sortByDate()
+            .print();
 
     } else if (trimedCommand === 'date') {
 
     } else if (trimedCommand === 'exit') {
-
+        process.exit(0);
     } else {
         console.log('wrong command');  
     }
