@@ -6,8 +6,7 @@ const readdirAsync = promisify(fs.readdir);
 const readFileAsync = promisify(fs.readFile);
 const statAsync = promisify(fs.stat);
 
-// TODO PE; 2018-08-20; переименовать?
-async function getAllFilePathsWithExtension(directoryPath, extension, filePaths) {
+async function getFilesWithExtension(directoryPath, extension, filePaths) {
     filePaths = filePaths || [];
     const fileNames = await readdirAsync(directoryPath);
 
@@ -17,7 +16,7 @@ async function getAllFilePathsWithExtension(directoryPath, extension, filePaths)
         promises.push(statAsync(filePath)
             .then(async stats => {
                 if (stats.isDirectory()) {
-                    await getAllFilePathsWithExtension(filePath, extension, filePaths);
+                    await getFilesWithExtension(filePath, extension, filePaths);
                 } else if (filePath.endsWith(`.${extension}`)) {
                     filePaths.push(filePath);
                 }
@@ -36,7 +35,7 @@ function getFileName(filePath) {
 }
 
 module.exports = {
-    getAllFilePathsWithExtension,
+    getFilesWithExtension,
     readFile,
     getFileName
 };
