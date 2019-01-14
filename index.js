@@ -19,6 +19,9 @@ async function getFiles () {
 
 function processCommand (command) {
     const trimedCommand = command.trim();
+    const userCommandReg = /^user\s([a-zа-я]+)$/i;
+    const dateCommandReg = /^date\s(\d{4}(-\d{2})?(-\d{2})?)$/;
+
     if (trimedCommand === 'show') {
         todoHandler
             .getAll()
@@ -30,8 +33,8 @@ function processCommand (command) {
             .selectImportant()
             .print();
 
-    } else if (/^user\s[a-zа-я]+$/i.test(trimedCommand)) {
-        const userName = trimedCommand.match(/^user\s([a-zа-я]+)$/i)[1];
+    } else if (userCommandReg.test(trimedCommand)) {
+        const userName = trimedCommand.match(userCommandReg)[1];
         todoHandler
             .getAll()
             .selectUser(userName)
@@ -55,13 +58,19 @@ function processCommand (command) {
             .sortByDate()
             .print();
 
-    } else if (trimedCommand === 'date') {
+    } else if (dateCommandReg.test(trimedCommand)) {
+        const commandDate = trimedCommand.match(dateCommandReg);
+        const date = new Date(commandDate[1]);
+
+        todoHandler
+            .getAll()
+            .selectDate(date)
+            .print();
 
     } else if (trimedCommand === 'exit') {
         process.exit(0);
+
     } else {
         console.log('wrong command');  
     }
 }
-
-// TODO you can do it!

@@ -44,6 +44,14 @@ module.exports = class TodoHandler {
         return this;
     }
 
+    selectDate(date) {
+        this.filteredTODOs = this.filteredTODOs.filter(todo => {
+            if (!todo.date) return false;
+            return new Date(todo.date) >= date;
+        });  
+        return this;  
+    }
+
     print() {
         let printingTable = '';
         const userLen = this._calcColumnWidth('user', 10);
