@@ -1,5 +1,5 @@
 const TodoHandler = require('./TodoHandler');
-const { readLine } = require('./console');
+const { writeLine, readLine } = require('./console');
 const { getFilesWithExtension } = require('./fileSystem');
 const todoHandler = new TodoHandler();
 
@@ -8,7 +8,7 @@ app();
 async function app () {
     const files = await getFiles();
     await todoHandler.loadFiles(files);
-    console.log('Please, write your command!');
+    writeLine('Please, write your command!');
     readLine(processCommand);
 }
 
@@ -71,6 +71,6 @@ function processCommand (command) {
         process.exit(0);
 
     } else {
-        console.log('wrong command');  
+        writeLine('wrong command');  
     }
 }
