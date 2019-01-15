@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
+const { StringDecoder } = require('string_decoder');
+const decoder = new StringDecoder('utf8');
 
 const readdirAsync = promisify(fs.readdir);
 const readFileAsync = promisify(fs.readFile);
@@ -26,8 +28,9 @@ async function getFilesWithExtension(directoryPath, extension, filePaths) {
     return filePaths;
 }
 
-function readFile(filePath) {
-    return readFileAsync(filePath, 'utf8'); // TODO Veronika; 2018-08-16; сделать кодировку настраиваемой
+async function readFile(filePath) {
+    const buffer = await readFileAsync(filePath);
+    return decoder.end(buffer);
 }
 
 function getFileName(filePath) {

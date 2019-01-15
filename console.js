@@ -7,8 +7,11 @@ function readLine(callback) {
     rl.on('line', callback); // TODO pe; 2015-08-10; а какая будет кодировка?
 }
 
-// TODO digi; 2016-04-08; добавить writeLine!!!
+function writeLine(date) {
+    console.log(date);
+}
 
 module.exports = {
-    readLine
+    readLine,
+    writeLine 
 };

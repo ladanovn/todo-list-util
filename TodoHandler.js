@@ -1,5 +1,6 @@
 const { getFileName } = require('./fileSystem');
 const { readFile } = require('./fileSystem');
+const { writeLine } = require('./console');
 module.exports = class TodoHandler {
 
     constructor() {
@@ -79,7 +80,7 @@ module.exports = class TodoHandler {
         if (this.filteredTODOs.length > 0) {
             printingTable += `${''.padEnd(tableLen, '-')}`;
         }
-        console.log(printingTable);
+        writeLine(printingTable);
     }
 
     sortByImportance() {
