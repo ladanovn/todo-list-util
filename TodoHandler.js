@@ -72,10 +72,10 @@ module.exports = class TodoHandler {
         for (let todo of this.filteredTODOs) {
             const tableRow = `` +
                 `${this._padTableCell(`${todo.important ? '!': ''}`, 1)}|` + 
-                `${this._padTableCell(`${todo.user || ''}`.padEnd(userLen))}|` +
-                `${this._padTableCell(`${todo.date || ''}`.padEnd(dateLen))}|` +
-                `${this._padTableCell(`${todo.comment || ''}`.padEnd(commentLen))}|` +
-                `${this._padTableCell(`${todo.filename}`.padEnd(filenameLen))}\n`;
+                `${this._padTableCell(`${todo.user || ''}`, userLen)}|` +
+                `${this._padTableCell(`${todo.date || ''}`, dateLen)}|` +
+                `${this._padTableCell(`${todo.comment || ''}`, commentLen)}|` +
+                `${this._padTableCell(`${todo.filename}`, filenameLen)}\n`;
             printingTable += tableRow;
         }
         if (this.filteredTODOs.length > 0) {
@@ -157,6 +157,7 @@ module.exports = class TodoHandler {
         if (str.length > maxWidth) {
             return `  ${str.substr(0, maxWidth - 3)}...  `;
         }
-        return `  ${str.padEnd(maxWidth)}  `;
+        const strCell = `  ${str.padEnd(maxWidth)}  `.padEnd(maxWidth);
+        return strCell;
     }
 }
